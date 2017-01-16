@@ -23,20 +23,18 @@ public class StaticMap {
 			+ (scale(2))
 			+ (apiKey());
 
+		System.out.println(request);
 		return new URL(request);
 	}
 
 	private static int calcZoom(Location l1, Location l2) {
-		System.out.println(l1);
-		System.out.println(l2);
 		Location l1M = Mercator.globeToMercator(l1);
 		Location l2M = Mercator.globeToMercator(l2);
-		System.out.println(l1M);
-		System.out.println(l2M);
-		double distance = l1M.distance(l2M);
-		System.out.println(distance);
-		System.out.println((int) (-Math.floor(Math.log10(distance)/Math.log10(2))));
-		return (int) (-Math.floor(Math.log10(distance)/Math.log10(2)));
+		double xDistance = l1M.getX() - l2M.getX();
+		double yDistance = l1M.getY() - l2M.getY();
+
+		double distance = Math.max(xDistance, yDistance);
+		return (int) (-Math.floor(Math.log10(distance)/Math.log10(2))) - 1;
 	}
 
 	private static final String baseUrl() {
