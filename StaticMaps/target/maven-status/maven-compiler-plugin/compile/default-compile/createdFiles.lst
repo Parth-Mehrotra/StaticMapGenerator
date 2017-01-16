@@ -1,2 +1,5 @@
+com/parth/geo/Location.class
+com/parth/geo/Mercator.class
 com/parth/geo/App.class
 com/parth/geo/StaticMap.class
+com/parth/geo/LatLng.class
