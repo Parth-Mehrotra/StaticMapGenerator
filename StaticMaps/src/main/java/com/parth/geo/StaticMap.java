@@ -2,17 +2,29 @@ package com.parth.geo;
 
 import java.net.URL;
 
+import java.awt.image.BufferedImage;
 import java.net.MalformedURLException;
 import java.io.IOException;
+import javax.imageio.ImageIO;
 
 public class StaticMap {
-
-	public static URL getImage(Location l, int zoom) throws MalformedURLException, IOException {
-		return getImage(l.getY(), l.getX(), zoom);
+	private BufferedImage image;
+	private Location center;
+	private int zoomLevel;
+	private URL url;
+	
+	public StaticMap(Location l, int zoom) throws MalformedURLException, IOException {
+		this.zoomLevel = zoom;
+		this.center = l;
+		this.url = getImage(this.center.getY(), this.center.getX(), this.zoomLevel);
+		this.image = ImageIO.read(this.url);
 	}
 
-	public static URL getImage(Location l1, Location l2) throws MalformedURLException, IOException {
-		return getImage(l1.midpoint(l2), calcZoom(l1, l2));
+	public StaticMap(Location l1, Location l2) throws MalformedURLException, IOException {
+		this.center = Mercator.mercatorToGlobe(Mercator.mercatorMidpoint(l1, l2));
+		this.zoomLevel = calcZoom(l1, l2);
+		this.url = getImage(this.center.getY(), this.center.getX(), this.zoomLevel);
+		this.image = ImageIO.read(this.url);
 	}
 
 	private static URL getImage(double lat, double lon, int zoom) throws MalformedURLException, IOException {
@@ -23,7 +35,6 @@ public class StaticMap {
 			+ (scale(2))
 			+ (apiKey());
 
-		System.out.println(request);
 		return new URL(request);
 	}
 
@@ -60,5 +71,8 @@ public class StaticMap {
 	private static final String apiKey() {
 		return "&key=AIzaSyDN_rivWEZ8sTpUO8efQjZk_8dJ8d8qXuY";
 	}
-}
 
+	public String toString() {
+		return "[" + this.center + ", " + zoomLevel + "]";
+	}
+}

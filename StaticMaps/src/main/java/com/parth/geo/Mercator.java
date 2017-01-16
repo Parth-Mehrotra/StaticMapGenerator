@@ -14,9 +14,17 @@ public class Mercator {
 
 		return mp1.midpoint(mp2);
 	}
-
+	
 	public static Location globeToMercator(Location globe) {
 		return new Location(lonToMercatorX(globe.getX()), latToMercatorY(globe.getY()));
+	}
+
+	public static Location mercatorToGlobe(Location mercator) {
+		return new Location(mercatorXToLon(mercator.getX()), mercatorYToLat(mercator.getY()));
+	}
+
+	private static double mercatorXToLon(double x) {
+		return (x*360) - 180d;
 	}
 
 	private static double lonToMercatorX(double lon) {
@@ -41,6 +49,11 @@ public class Mercator {
 
 		// Invert values because top = 0, and bottom is 1 (quadrant 3)
 		return translateLeft * -1d;
+	}
+
+	private static double mercatorYToLat(double mercatorY) {
+		double y = 0.5 - mercatorY;
+		return 90 - 360 * Math.atan(Math.exp(-y * (2 * Math.PI))) / Math.PI;
 	}
 
 }
