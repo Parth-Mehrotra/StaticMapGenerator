@@ -25,9 +25,10 @@ public class Location {
 		this.y = y;
 	}
 
-	public void scale(double d) {
+	public Location scale(double d) {
 		this.x *= d;
 		this.y *= d;
+		return this;
 	}
 
 	public double distance(Location l) {

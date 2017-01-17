@@ -29,7 +29,7 @@ public class StaticMap {
 		this.image = ImageIO.read(this.url);
 	}
 
-	public Location getLocationInImage(Location lngLat) [
+	public Location getLocationInImage(Location lngLat) {
 		double mapSizeAtThisZoom = MAP_TILE_SIZE * Math.pow(2, this.zoomLevel);
 		Location mercatorCenter = Mercator.globeToMercator(center).scale(mapSizeAtThisZoom);
 
