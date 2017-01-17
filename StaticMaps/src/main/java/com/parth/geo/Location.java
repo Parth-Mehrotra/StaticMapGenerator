@@ -17,6 +17,19 @@ public class Location {
 		return y;
 	}
 
+	public void setX(double x) {
+		this.x = x;
+	}
+
+	public void setY(double y) {
+		this.y = y;
+	}
+
+	public void scale(double d) {
+		this.x *= d;
+		this.y *= d;
+	}
+
 	public double distance(Location l) {
 		double px = l.getX() - this.getX();
 		double py = l.getY() - this.getY();
