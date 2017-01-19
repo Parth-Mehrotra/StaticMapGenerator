@@ -15,6 +15,10 @@ public class StaticMap {
 	private static final int SCALE = 2;
 	private static final int MAP_TILE_SIZE = 2;
 	
+	/** 
+	 * Generate a new StaticMap at a center and zoom level
+	 * @param Location LongLat that represents the center
+	 */
 	public StaticMap(Location l, int zoom) throws MalformedURLException, IOException {
 		this.zoomLevel = zoom;
 		this.center = l;
@@ -22,23 +26,33 @@ public class StaticMap {
 		this.image = ImageIO.read(this.url);
 	}
 
+	/**
+	 * Generate a new StaticMap given two points. Will calculate what the mercator midpoint is, use that as the center, then calculate the maximum zoom for the two points
+	 * @param l1 Southwest bound
+	 * @param l2 Northeast bound
+	 */
 	public StaticMap(Location l1, Location l2) throws MalformedURLException, IOException {
-		this.center = Mercator.mercatorToGlobe(Mercator.mercatorMidpoint(l1, l2));
+		this.center = Mercator.mercatorMidpoint(l1, l2);
 		this.zoomLevel = calcZoom(l1, l2);
 		this.url = getImage(this.center.getY(), this.center.getX(), this.zoomLevel);
 		this.image = ImageIO.read(this.url);
 	}
 
+	/**
+	 * Given a location on a globe, calculate where that position would appear on the image of this map
+	 * @param Location the location on the globe
+	 * @return where this location appears on the image
+	 */
 	public Location getLocationInImage(Location lngLat) {
 		double mapSizeAtThisZoom = MAP_TILE_SIZE * Math.pow(2, this.zoomLevel);
-		Location mercatorCenter = Mercator.globeToMercator(center).scale(mapSizeAtThisZoom);
+		Location mercatorCenter = Mercator.globeToMercator(center).multiply(mapSizeAtThisZoom);
 
 		double localOriginX = mapSizeAtThisZoom - mercatorCenter.getX() - (MAP_TILE_SIZE / 2);
 		double localOriginY = mapSizeAtThisZoom - mercatorCenter.getY() - (MAP_TILE_SIZE / 2);
 		Location mercatorOrigin = new Location(localOriginX, localOriginY);
 
-		Location mercator = Mercator.globeToMercator(lngLat).scale(mapSizeAtThisZoom);
-		Location onImage = new Location(mercator.getX() - mercatorOrigin.getX(), mercator.getY() - mercatorOrigin.getY()).scale(SCALE);
+		Location mercator = Mercator.globeToMercator(lngLat).multiply(mapSizeAtThisZoom);
+		Location onImage = new Location(mercator.getX() - mercatorOrigin.getX(), mercator.getY() - mercatorOrigin.getY()).multiply(SCALE);
 		if (onImage.getX() < 0) {
 			onImage.setX(0);
 		}
@@ -61,11 +75,11 @@ public class StaticMap {
 
 	private static URL getImage(double lat, double lon, int zoom) throws MalformedURLException, IOException {
 		String request = baseUrl()
-			+ (center(lat, lon))
-			+ (zoom(zoom))
-			+ (size(MAP_TILE_SIZE, MAP_TILE_SIZE))
-			+ (scale(SCALE))
-			+ (apiKey());
+			+ center(lat, lon)
+			+ zoom(zoom)
+			+ size(MAP_TILE_SIZE, MAP_TILE_SIZE)
+			+ scale(SCALE)
+			+ apiKey();
 
 		return new URL(request);
 	}
