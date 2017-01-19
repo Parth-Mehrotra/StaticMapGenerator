@@ -17,7 +17,10 @@ public class StaticMap {
 	
 	/** 
 	 * Generate a new StaticMap at a center and zoom level
-	 * @param Location LongLat that represents the center
+	 * @param l LongLat that represents the center
+	 * @param zoom level of zoom 
+	 * @throws MalformedURLException TODO shouldn't really happen 
+	 * @throws IOException if API call fails to return a valid image
 	 */
 	public StaticMap(Location l, int zoom) throws MalformedURLException, IOException {
 		this.zoomLevel = zoom;
@@ -30,6 +33,8 @@ public class StaticMap {
 	 * Generate a new StaticMap given two points. Will calculate what the mercator midpoint is, use that as the center, then calculate the maximum zoom for the two points
 	 * @param l1 Southwest bound
 	 * @param l2 Northeast bound
+	 * @throws MalformedURLException TODO shouldn't really happen 
+	 * @throws IOException if API call fails to return a valid image
 	 */
 	public StaticMap(Location l1, Location l2) throws MalformedURLException, IOException {
 		this.center = Mercator.mercatorMidpoint(l1, l2);
@@ -40,7 +45,7 @@ public class StaticMap {
 
 	/**
 	 * Given a location on a globe, calculate where that position would appear on the image of this map
-	 * @param Location the location on the globe
+	 * @param lngLat the location on the globe
 	 * @return where this location appears on the image
 	 */
 	public Location getLocationInImage(Location lngLat) {

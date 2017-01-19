@@ -35,7 +35,7 @@ public class Location {
 
 	/**
 	 * Set the x value of the location
-	 * @param new x value
+	 * @param x value
 	 * @return this
 	 */ 
 	public Location setX(double x) {
@@ -45,7 +45,7 @@ public class Location {
 
 	/**
 	 * Set the y value of the location
-	 * @param new y value
+	 * @param y value
 	 * @return this
 	 */ 
 	public Location setY(double y) {
@@ -97,6 +97,8 @@ public class Location {
 
 	/**
 	 * Calculate the distance between 2 locations
+	 * @param l1 first location
+	 * @param l2 second location 
 	 * @return the distance between the two locations in euclidean space
 	 */
 	public static double distance(Location l1, Location l2) {
@@ -105,6 +107,8 @@ public class Location {
 
 	/**
 	 * Calculates the midpoint between 2 locations
+	 * @param l1 first location
+	 * @param l2 second location 
 	 * @return the midpoint between 2 locations in euclidean space
 	 */
 	public static Location midpoint(Location l1, Location l2) {
