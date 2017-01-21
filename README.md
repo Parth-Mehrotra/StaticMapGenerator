@@ -24,7 +24,7 @@ Getting a map from Google Static Maps Library with the maximum level of zoom whi
 Location home = new Location(0, 0);
 Location work = new Location(80, 0); // Killer comute
 
-StaticMap map = new StaticMap(home, work);
+StaticMap map = new StaticMap(home, work, KEY);
 showBufferedImage(map.getMapImage()); // hypothetical function
 ```
 
@@ -34,7 +34,7 @@ Finding where a point would occur on a given StaticMap:
 Location home = new Location(0, 0);
 Location work = new Location(80, 0); // Killer comute
 
-StaticMap map = new StaticMap(home, work);
+StaticMap map = new StaticMap(home, work, KEY);
 showBufferedImage(map.getMapImage()); // hypothetical function
 
 Location testPoint = map.getLocationInImage(new Location(40, 0)); // Won't be in the center of the image!
