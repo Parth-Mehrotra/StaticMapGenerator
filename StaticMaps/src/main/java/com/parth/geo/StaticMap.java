@@ -13,7 +13,7 @@ public class StaticMap {
 	private int zoomLevel;
 	private URL url;
 	private static final int SCALE = 2;
-	private static final int MAP_TILE_SIZE = 2;
+	private static final int MAP_TILE_SIZE = 256;
 	
 	/** 
 	 * Generate a new StaticMap at a center and zoom level
@@ -25,6 +25,7 @@ public class StaticMap {
 	public StaticMap(Location l, int zoom) throws MalformedURLException, IOException {
 		this.zoomLevel = zoom;
 		this.center = l;
+		//TODO Should this happen here? No I shouuldn't - shouldn't need internet to use the math in the class Should be able to pass in your own bufferedimage too, maybe
 		this.url = getImage(this.center.getY(), this.center.getX(), this.zoomLevel);
 		this.image = ImageIO.read(this.url);
 	}
@@ -52,8 +53,9 @@ public class StaticMap {
 		double mapSizeAtThisZoom = MAP_TILE_SIZE * Math.pow(2, this.zoomLevel);
 		Location mercatorCenter = Mercator.globeToMercator(center).multiply(mapSizeAtThisZoom);
 
-		double localOriginX = mapSizeAtThisZoom - mercatorCenter.getX() - (MAP_TILE_SIZE / 2);
-		double localOriginY = mapSizeAtThisZoom - mercatorCenter.getY() - (MAP_TILE_SIZE / 2);
+		double localOriginX = mercatorCenter.getX() - (MAP_TILE_SIZE / 2);
+		double localOriginY = mercatorCenter.getY() - (MAP_TILE_SIZE / 2);
+
 		Location mercatorOrigin = new Location(localOriginX, localOriginY);
 
 		Location mercator = Mercator.globeToMercator(lngLat).multiply(mapSizeAtThisZoom);
@@ -70,12 +72,30 @@ public class StaticMap {
 			onImage.setX(MAP_TILE_SIZE * SCALE);
 		}
 
-		if (onImage.getX() > MAP_TILE_SIZE * SCALE) { 
+		if (onImage.getY() > MAP_TILE_SIZE * SCALE) { 
 			onImage.setY(MAP_TILE_SIZE * SCALE);
 		}
 
 		return onImage;
 		
+	}
+
+	public Location getCenter() { 
+		return center;
+	}
+
+	public int getZoomLevel() {
+		return zoomLevel;
+	}
+
+	public BufferedImage getMapImage() {
+		return image;
+	}
+	
+	@Override
+	public boolean equals(Object sm) {
+		StaticMap o = (StaticMap) sm;
+		return o.getCenter().equals(this.getCenter()) && o.getZoomLevel() == this.getZoomLevel();
 	}
 
 	private static URL getImage(double lat, double lon, int zoom) throws MalformedURLException, IOException {
@@ -92,8 +112,9 @@ public class StaticMap {
 	private static int calcZoom(Location l1, Location l2) {
 		Location l1M = Mercator.globeToMercator(l1);
 		Location l2M = Mercator.globeToMercator(l2);
-		double xDistance = l1M.getX() - l2M.getX();
-		double yDistance = l1M.getY() - l2M.getY();
+
+		double xDistance = Math.abs(l1M.getX() - l2M.getX());
+		double yDistance = Math.abs(l1M.getY() - l2M.getY());
 
 		double distance = Math.max(xDistance, yDistance);
 		return (int) (-Math.floor(Math.log10(distance)/Math.log10(2))) - 1;

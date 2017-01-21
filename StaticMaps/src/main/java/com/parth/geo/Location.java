@@ -114,4 +114,15 @@ public class Location {
 	public static Location midpoint(Location l1, Location l2) {
 		return l1.midpoint(l2);
 	}
+
+	/**
+	 * Determines wether two Locations are equal
+	 * @param location to be compared to this one
+	 * @return true iff getX() and getY() of both objects are the same
+	 */
+	@Override
+	public boolean equals(Object location) {
+		Location l = (Location) location;
+		return l.getX() == this.getX() && l.getY() == this.getY();
+	}
 }
