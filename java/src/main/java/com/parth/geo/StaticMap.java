@@ -7,6 +7,9 @@ import java.net.MalformedURLException;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
+/**
+ * A class used to make requests to Google's Static Maps API
+ */
 public class StaticMap {
 	private BufferedImage image;
 	private Location center;
@@ -14,6 +17,7 @@ public class StaticMap {
 	private URL url;
 	private static final int SCALE = 2;
 	private static final int MAP_TILE_SIZE = 256;
+	private String key;
 	
 	/** 
 	 * Generate a new StaticMap at a center and zoom level
@@ -22,11 +26,12 @@ public class StaticMap {
 	 * @throws MalformedURLException TODO shouldn't really happen 
 	 * @throws IOException if API call fails to return a valid image
 	 */
-	public StaticMap(Location l, int zoom) throws MalformedURLException, IOException {
+	public StaticMap(Location l, int zoom, String key) throws MalformedURLException, IOException {
+		this.key = key;
 		this.zoomLevel = zoom;
 		this.center = l;
 		//TODO Should this happen here? No I shouuldn't - shouldn't need internet to use the math in the class Should be able to pass in your own bufferedimage too, maybe
-		this.url = getImage(this.center.getY(), this.center.getX(), this.zoomLevel);
+		this.url = getImage(this.center.getY(), this.center.getX(), this.zoomLevel, this.key);
 		this.image = ImageIO.read(this.url);
 	}
 
@@ -37,10 +42,11 @@ public class StaticMap {
 	 * @throws MalformedURLException TODO shouldn't really happen 
 	 * @throws IOException if API call fails to return a valid image
 	 */
-	public StaticMap(Location l1, Location l2) throws MalformedURLException, IOException {
+	public StaticMap(Location l1, Location l2, String key) throws MalformedURLException, IOException {
+		this.key = key;
 		this.center = Mercator.mercatorMidpoint(l1, l2);
 		this.zoomLevel = calcZoom(l1, l2);
-		this.url = getImage(this.center.getY(), this.center.getX(), this.zoomLevel);
+		this.url = getImage(this.center.getY(), this.center.getX(), this.zoomLevel, this.key);
 		this.image = ImageIO.read(this.url);
 	}
 
@@ -98,13 +104,13 @@ public class StaticMap {
 		return o.getCenter().equals(this.getCenter()) && o.getZoomLevel() == this.getZoomLevel();
 	}
 
-	private static URL getImage(double lat, double lon, int zoom) throws MalformedURLException, IOException {
+	private static URL getImage(double lat, double lon, int zoom, String key) throws MalformedURLException, IOException {
 		String request = baseUrl()
 			+ center(lat, lon)
 			+ zoom(zoom)
 			+ size(MAP_TILE_SIZE, MAP_TILE_SIZE)
 			+ scale(SCALE)
-			+ apiKey();
+			+ apiKey(key);
 
 		return new URL(request);
 	}
@@ -140,11 +146,13 @@ public class StaticMap {
 		return "&scale=" + n;
 	}
 
-	private static final String apiKey() {
-		return "&key=AIzaSyDN_rivWEZ8sTpUO8efQjZk_8dJ8d8qXuY";
+	private static final String apiKey(String key) {
+		return "&key=" + key;
 	}
 
 	public String toString() {
 		return "[" + this.center + ", " + zoomLevel + "]";
 	}
 }
+
+// TODO make the structure of this class more consistent, make it possible to use it without requiring a key
