@@ -40,3 +40,27 @@ showBufferedImage(map.getMapImage()); // hypothetical function
 Location testPoint = map.getLocationInImage(new Location(40, 0)); // Won't be in the center of the image!
 plot(map.getMapImage(), testPoint); // hypothetical function
 ```
+
+## Usage
+
+Project is pending addition to maven central. In the meantime you can use the following bintray maven repository:
+
+Add the following to your `<repositories>`
+
+```
+<repository>
+	<id>bintray-parth-mehrotra-staticmaps</id>
+	<name>bintray</name>
+	<url>http://dl.bintray.com/parth-mehrotra/staticmaps</url>
+</repository>
+```
+
+and the following to your `<dependencies>`
+
+```
+<dependency>
+	<groupId>com.parth.geo</groupId>
+	<artifactId>StaticMaps</artifactId>
+	<version>1.0</version>
+</dependency>
+```
