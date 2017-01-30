@@ -45,7 +45,7 @@ plot(map.getMapImage(), testPoint); // hypothetical function
 
 ## Adding it to your project
 
-If you're not using maven [here is the .jar](http://dl.bintray.com/parth-mehrotra/staticmaps/com/parth/geo/StaticMaps/1.0/:StaticMaps-1.0.jar). 
+If you're not using maven [here is the .jar](http://dl.bintray.com/parth-mehrotra/staticmaps/com/parth/geo/StaticMaps/1.0/). 
 
 Project is pending addition to maven central. In the meantime you can use the following bintray maven repository:
 
