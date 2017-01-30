@@ -41,7 +41,7 @@ Location testPoint = map.getLocationInImage(new Location(40, 0)); // Won't be in
 plot(map.getMapImage(), testPoint); // hypothetical function
 ```
 
-## Usage
+## Adding it to your project
 
 Project is pending addition to maven central. In the meantime you can use the following bintray maven repository:
 
