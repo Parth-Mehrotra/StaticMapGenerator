@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.parth.geo</groupId>
+	<groupId>com.parthmehrotra.geo</groupId>
 	<artifactId>StaticMaps</artifactId>
 	<packaging>jar</packaging>
 	<version>1.0</version>
@@ -14,6 +14,18 @@
 				<executions>
 					<execution>
 						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
 						<goals>
 							<goal>jar</goal>
 						</goals>
