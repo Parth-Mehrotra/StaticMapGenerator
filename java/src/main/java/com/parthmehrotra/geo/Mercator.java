@@ -1,4 +1,4 @@
-package com.parth.geo;
+package com.parthmehrotra.geo;
 
 /**
  * Class used to do opperations that relate to the Mercator Projcetion. "Globe" is defined as Locations on a globe as Longitude and Latitude with the values x: [-180, 180], y: [-90, 90]. "Mercator" refers to the Locations that have been projected onto a Mercator map of the size 1x1, so values take the ranges of [0, 1].

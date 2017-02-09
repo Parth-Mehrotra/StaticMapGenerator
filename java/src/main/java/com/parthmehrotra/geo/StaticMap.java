@@ -1,4 +1,4 @@
-package com.parth.geo;
+package com.parthmehrotra.geo;
 
 import java.net.URL;
 

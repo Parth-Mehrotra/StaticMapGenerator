@@ -1,4 +1,4 @@
-package com.parth.geo;
+package com.parthmehrotra.geo;
 
 /**
  * Used to represent a location with double precision
