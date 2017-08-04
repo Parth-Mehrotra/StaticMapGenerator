@@ -1,6 +1,6 @@
 # StaticMapGenerator
 
-A library that makes dealing with the [Math of the Mercator Projection](https://en.wikipedia.org/wiki/Mercator_projection#Mathematics_of_the_Mercator_projection) and the Google's [Static Maps Library](https://en.wikipedia.org/wiki/Mercator_projection#Mathematics_of_the_Mercator_projection) painless.
+A library that makes dealing with the [Math of the Mercator Projection](https://en.wikipedia.org/wiki/Mercator_projection#Mathematics_of_the_Mercator_projection) and the Google's [Static Maps Library](https://developers.google.com/maps/documentation/static-maps/intro) painless.
 
 ## Some nifty uses:
 
